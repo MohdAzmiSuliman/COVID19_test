@@ -1,0 +1,53 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(pacman)
+p_load(flexdashboard, tidyverse, ggplot2, readr, dygraphs)
+```
+
+```{r}
+MY_caselist <- read_csv("MY_case_list_prior03032020.csv", 
+    col_types = cols(Confirmed_Date = col_date(format = "%d/%m/%Y"), 
+        Recovered_Date = col_date(format = "%d/%m/%Y")))
+```
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### New Case by State
+
+```{r}
+case_state <- MY_caselist %>% 
+  select(Confirmed_Date, State) %>% 
+  group_by(Confirmed_Date, State) %>% count()
+ggplot(case_state, aes(x=Confirmed_Date, y=n, colour=State)) +
+  geom_line()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Case by State
+
+```{r}
+sum_case <- read_csv("sum_case_prior03032020.csv", 
+    col_types = cols(Confirmed_date = col_date(format = "%d/%m/%Y")))
+
+ggplot(sum_case, aes(x=Confirmed_date, y=New_Case, colour=State)) +
+  geom_line()
+```
+
+### Chart C
+
+```{r}
+ggplot(sum_case, aes(x=Confirmed_date, y=Total_Case, colour=State)) +
+  geom_line()
+```
+

@@ -26,6 +26,7 @@ retrieve 18/03/2020
 library(readr)
 mycase <- read_csv("MY_case_list_upto17032020.csv", 
     col_types = cols(Confirmed_Date = col_date(format = "%d/%m/%Y"), 
+        Status_Date = col_date(format = "%d/%m/%Y"), 
         X9 = col_skip()))
 mycase
 ```
@@ -35,9 +36,13 @@ mycase
 ## count case per day
 
 ```{r}
-casecount <- mycase %>% group_by(Confirmed_Date) %>% count()
-casecount
+casecount1 <- mycase %>% group_by(Confirmed_Date) %>% count()
+casecount1
 #write.csv(casecount, "casecount.csv")
+casecount2 <- mycase %>% group_by(Confirmed_Date, State) %>% count()
+casecount2
+recoveredcount <- mycase %>% group_by(Status_Date, Status) %>% count()
+recoveredcount
 ```
 
 ## plot 

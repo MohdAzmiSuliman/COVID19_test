@@ -1,0 +1,36 @@
+---
+title: "COVID19 MY 17032020"
+author: "Mohd Azmi"
+date: "19/03/2020"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Environment
+
+## package
+
+```{r}
+library(pacman)
+p_load(tidyverse, summarytools, ggplot2)
+```
+
+```{r}
+library(readr)
+mycase <- read_csv("CFR.csv", col_types = cols(Date = col_date(format = "%d/%m/%Y")))
+mycase
+```
+```{r}
+y <- mycase$Daily_TotalCFR
+ggplot(mycase, aes(x=Date, y=Daily_TotalCFR)) +
+  geom_line() + geom_text(label=y, nudge_y = 0.5) +
+  ylab("Case Fatality Rate\n(per 1,000 case per day)") +
+  theme_bw()
+
+ggsave("cfr_plot.png", width = 16^.75, height = 9^.75)
+```
+
+

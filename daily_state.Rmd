@@ -1,0 +1,33 @@
+---
+title: "Test Negeri"
+author: "Mohd Azmi"
+date: "25/03/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(pacman)
+p_load(tidyverse, summarytools, ggplot2, readr, plotly)
+```
+
+```{r}
+daily_state <- read_csv("state_case_march.csv", 
+    col_types = cols(Date = col_date(format = "%d/%m/%Y")))
+daily_state
+```
+
+
+```{r}
+totcase <- ggplot(daily_state) +
+  geom_line(aes(x=Date, y=Total_Case, colour = State))
+ggplotly(totcase)
+
+newcase_log <- ggplot(daily_state) +
+  geom_line(aes(x=Date, y=log(New_Case), colour = State))
+ggplotly(newcase_log)
+```
+

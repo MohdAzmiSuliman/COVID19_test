@@ -16,7 +16,7 @@ p_load(tidyverse, summarytools, ggplot2, readr, plotly)
 
 ```{r}
 daily_state <- read_csv("state_case_march.csv", 
-    col_types = cols(Date = col_date(format = "%d/%m/%Y")))
+    col_types = cols(Date = col_date(format = "%d/%m/%Y"))) %>% drop_na()
 daily_state
 ```
 
@@ -30,4 +30,12 @@ newcase_log <- ggplot(daily_state) +
   geom_line(aes(x=Date, y=log(New_Case), colour = State))
 ggplotly(newcase_log)
 ```
+
+```{r}
+newvstotcase <- ggplot(daily_state, aes(x=New_Case, y=Total_Case, group = State, colour = State)) +
+  geom_point() +
+  geom_smooth(method = "loess", span = 1.5)
+ggplotly(newvstotcase)
+```
+
 

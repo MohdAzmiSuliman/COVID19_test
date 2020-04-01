@@ -14,6 +14,7 @@ library(readr)
 library(ggplot2)
 ```
 
+# Average Rate of Change
 
 ```{r}
 ratechange <- read_csv("ratechange.csv")
@@ -29,8 +30,41 @@ ggplot(ratechange, aes(Average_Rate, x=Particular, fill = misc, label = Average_
 
 ```
 
-```{r}
-ggsave("changeplot.png", plot = last_plot(), width = 4^1.5, height = 3^1.5, dpi = 320)
+```{r, eval=F}
+#ggsave("changeplot.png", plot = last_plot(), width = 4^1.5, height = 3^1.5, dpi = 320)
 ```
 
+# Weekly Cases
+
+```{r}
+numcaseperweek <- read_csv("numcaseperweek.csv")
+numcaseperweek
+```
+
+```{r}
+numcaseperweek$Date <- factor(numcaseperweek$Date, levels = c("24/01-25/01", "26/01-01/02", "02/02-08/02", "09/02-15/02", "16/02-22/02", "23/02-29/02", "01/03-07/03", "08/03-14/03", "15/03-21/03", "22/03-28/03", "29/03-01/04"))
+ggplot(numcaseperweek) +
+  geom_col(aes(x=EpidWeek, y=Rate, fill = Date)) +
+  scale_x_continuous(breaks = seq(0,20,1)) +
+  geom_text(aes(x=EpidWeek, y=Rate, label = Rate), nudge_y = 10) +
+  geom_text(aes(x=EpidWeek, y=Rate, label = misc), nudge_y = 20, size = 3, check_overlap = T) +
+  ylab("Average New Case per Day\nIn Particular Week") + theme_bw()
+```
+
+```{r, eval=F}
+#ggsave("weekchangeplot.png", plot = last_plot(), width = 4^1.5, height = 3^1.5, dpi = 320)
+```
+
+##test
+```{r}
+ggplot(numcaseperweek) +
+  geom_col(aes(x=EpidWeek, y=log(Rate, 10), fill = Date)) +
+  scale_x_continuous(breaks = seq(0,20,1)) +
+  ylab("Average New Case per Day\nIn Particular Week") + theme_bw()
+```
+
+```{r}
+ggplot(numcaseperweek, aes(x= EpidWeek, y=Rate)) +
+  geom_point() + geom_smooth()
+```
 

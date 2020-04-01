@@ -1,0 +1,36 @@
+---
+title: "rate_change"
+author: "Mohd Azmi"
+date: "01/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(ggplot2)
+```
+
+
+```{r}
+ratechange <- read_csv("ratechange.csv")
+ratechange
+```
+
+```{r}
+ratechange$Particular <- factor(ratechange$Particular, levels = c("05/03_18/03", "07/03_18/03", "05/03_01/04", "07/03_01/04", "19/03_01/04", "01/04"))
+ratechange$misc <- factor(ratechange$misc, levels = c("1st malaysian - MCO", "1st local transmission - MCO", "1st malaysian - EMCO", "1st local transmission - EMCO", "MCO - EMCO", "Today"))
+ggplot(ratechange, aes(Average_Rate, x=Particular, fill = misc, label = Average_Rate, digit=2)) +
+  geom_col() + xlab("Duration") + ylab("Average Case per Day") +
+  theme_minimal() + geom_text()
+
+```
+
+```{r}
+ggsave("changeplot.png", plot = last_plot(), width = 4^1.5, height = 3^1.5, dpi = 320)
+```
+
+

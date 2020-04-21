@@ -1,0 +1,95 @@
+---
+title: "mean3day"
+author: "Mohd Azmi"
+date: "21/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(pacman)
+p_load(tidyverse, summarytools, ggplot2, readxl)
+```
+
+```{r}
+mean3daydata <- read_excel("mean3daydata.xlsx", 
+    col_types = c("numeric", "date", "text", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric"))
+mean3daydata1 <- mean3daydata %>% drop_na()
+mean3daydata1_total <- mean3daydata1 %>% filter(Type == "Total")
+mean3daydata1_total
+mean3daydata1_new <- mean3daydata1 %>% filter(Type == "New")
+mean3daydata1_new
+```
+
+```{r}
+ggplot(mean3daydata1_total, aes(x=Date, y=Total_Case)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Total_Case)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Total_M3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Total_M3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Death)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Death)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Death_D3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Death_D3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Recovered)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Recovered)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Recover_D3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Recover_D3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Active_Case)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Active_Case)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_total, aes(x=Date, y=Active_D3)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot(mean3daydata1_new, aes(x=Date, y=Active_D3)) +
+  geom_point() +
+  geom_smooth()
+```
+
